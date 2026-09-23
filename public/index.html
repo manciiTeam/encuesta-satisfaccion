@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Encuesta de Satisfacción · Mancii</title>
+<style>
+  @font-face {
+    font-family: "Poppins";
+    src: url("/Poppins-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Poppins";
+    src: url("/Poppins-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Poppins";
+    src: url("/Poppins-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  :root {
+    --primary: #F20087;
+    --primary-tint: #FCE4F3;
+    --secondary: #631F52;
+    --secondary-tint: #F1E6EE;
+    --dark: #222022;
+    --bg: #FAF6FB;
+    --card: #FFFFFF;
+    --text: #222022;
+    --muted: #746E78;
+    --border: #ECE2ED;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 16px 64px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Poppins", -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.5;
+  }
+
+  .wrap {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    display: block;
+    height: 28px;
+    width: auto;
+    margin-bottom: 32px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 36px 32px;
+    box-shadow: 0 20px 45px -25px rgba(34, 32, 34, 0.35);
+  }
+
+  .eyebrow {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.25;
+    margin: 0 0 12px;
+    color: var(--secondary);
+  }
+
+  .intro {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0 0 8px;
+  }
+
+  .privacy {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary-tint);
+    color: var(--secondary);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    margin: 16px 0 28px;
+  }
+
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0 0 28px;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .badge {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 2px 0 0;
+  }
+
+  label.field-label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--secondary);
+    margin-bottom: 6px;
+  }
+
+  input[type="text"], textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 15px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--text);
+    resize: vertical;
+  }
+
+  input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  textarea { min-height: 76px; }
+
+  .row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  @media (max-width: 480px) {
+    .row-grid { grid-template-columns: 1fr; }
+    .card { padding: 28px 20px; }
+  }
+
+  .field-block { margin-bottom: 18px; }
+
+  .scale {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .scale button {
+    flex: 1 1 0;
+    min-width: 40px;
+    padding: 10px 0;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+    transition: transform 0.08s ease;
+  }
+
+  .scale button:hover { border-color: var(--accent, var(--primary)); }
+  .scale button:active { transform: scale(0.96); }
+
+  .scale button[aria-pressed="true"] {
+    background: var(--accent, var(--primary));
+    border-color: var(--accent, var(--primary));
+    color: #fff;
+  }
+
+  .scale-caption {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .npsrow { display: flex; gap: 6px; flex-wrap: wrap; }
+  .npsrow button {
+    flex: 1 1 0;
+    min-width: 30px;
+    padding: 8px 0;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .npsrow button[aria-pressed="true"] {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    color: #fff;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 14px;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .status {
+    margin-top: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .status.error { color: var(--primary); }
+
+  .thanks {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .thanks .check {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 28px;
+  }
+
+  .thanks h2 {
+    color: var(--secondary);
+    font-size: 22px;
+    margin: 0 0 8px;
+  }
+
+  .thanks p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .hp { position: absolute; left: -9999px; opacity: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="logo" src="/logo-mancii.svg" alt="Mancii" />
+
+  <div class="card">
+    <form id="survey-form" novalidate>
+      <p class="eyebrow">Encuesta de satisfacción</p>
+      <h1>¿Cómo te está yendo con Mancii?</h1>
+      <p class="intro">Tu experiencia nos ayuda a mejorar la plataforma para ti y para los próximos equipos que la usen. Toma menos de 3 minutos.</p>
+      <p class="privacy">🔒 Tus respuestas son confidenciales — el nombre es opcional.</p>
+
+      <input class="hp" type="text" name="website" id="website" tabindex="-1" autocomplete="off" />
+
+      <div class="row-grid">
+        <div>
+          <label class="field-label" for="nombre">Nombre (opcional)</label>
+          <input type="text" id="nombre" maxlength="120" placeholder="Tu nombre" />
+        </div>
+        <div>
+          <label class="field-label" for="rol">Tu rol / cargo</label>
+          <input type="text" id="rol" maxlength="120" placeholder="Ej. Coordinador académico" />
+        </div>
+      </div>
+      <div class="field-block">
+        <label class="field-label" for="empresa">Empresa / institución <span style="color:var(--primary)">*</span></label>
+        <input type="text" id="empresa" maxlength="160" placeholder="Nombre del cliente" required />
+      </div>
+
+      <fieldset>
+        <div class="section-label">
+          <div class="badge" style="background:var(--primary)">1</div>
+          <div>
+            <p class="section-title">Onboarding</p>
+            <p class="section-sub">¿Qué tan claro fue el proceso inicial de uso de Mancii?</p>
+          </div>
+        </div>
+        <div class="scale" data-field="onboarding" style="--accent:var(--primary)"></div>
+        <div class="scale-caption"><span>Muy confuso</span><span>Muy claro</span></div>
+      </fieldset>
+
+      <fieldset>
+        <div class="section-label">
+          <div class="badge" style="background:var(--primary)">2</div>
+          <div>
+            <p class="section-title">Soporte al cliente</p>
+            <p class="section-sub">¿Qué tan satisfecho estás con la calidad del soporte?</p>
+          </div>
+        </div>
+        <div class="scale" data-field="soporte" style="--accent:var(--primary)"></div>
+        <div class="scale-caption"><span>Muy insatisfecho</span><span>Muy satisfecho</span></div>
+      </fieldset>
+
+      <fieldset>
+        <div class="section-label">
+          <div class="badge" style="background:var(--primary)">3</div>
+          <div>
+            <p class="section-title">Tiempo de respuesta</p>
+            <p class="section-sub">¿Qué tan rápido te resolvieron cuando lo necesitaste?</p>
+          </div>
+        </div>
+        <div class="scale" data-field="tiempo" style="--accent:var(--primary)"></div>
+        <div class="scale-caption"><span>Muy lento</span><span>Muy rápido</span></div>
+      </fieldset>
+
+      <fieldset>
+        <div class="section-label">
+          <div class="badge" style="background:var(--primary)">4</div>
+          <div>
+            <p class="section-title">Uso en el día a día</p>
+            <p class="section-sub">¿Qué tan fácil es usar la plataforma en tu trabajo diario?</p>
+          </div>
+        </div>
+        <div class="scale" data-field="usodiario" style="--accent:var(--primary)"></div>
+        <div class="scale-caption"><span>Muy difícil</span><span>Muy fácil</span></div>
+      </fieldset>
+
+      <fieldset>
+        <div class="section-label">
+          <div class="badge" style="background:var(--secondary)">5</div>
+          <div>
+            <p class="section-title">Recomendación</p>
+            <p class="section-sub">¿Qué tan probable es que recomiendes Mancii a un colega?</p>
+          </div>
+        </div>
+        <div class="npsrow" data-field="nps"></div>
+        <div class="scale-caption"><span>Nada probable</span><span>Muy probable</span></div>
+      </fieldset>
+
+      <fieldset>
+        <div class="section-label">
+          <div class="badge" style="background:var(--secondary)">6</div>
+          <div>
+            <p class="section-title">Comentarios</p>
+            <p class="section-sub">Todo esto es opcional, pero nos ayuda muchísimo.</p>
+          </div>
+        </div>
+        <div class="field-block">
+          <label class="field-label" for="feature_valorada">¿Qué es lo que más valoras de Mancii?</label>
+          <textarea id="feature_valorada" maxlength="600"></textarea>
+        </div>
+        <div class="field-block">
+          <label class="field-label" for="feature_faltante">¿Qué sientes que le falta o podría mejorar?</label>
+          <textarea id="feature_faltante" maxlength="600"></textarea>
+        </div>
+        <div class="field-block">
+          <label class="field-label" for="comentarios">Otros comentarios</label>
+          <textarea id="comentarios" maxlength="600"></textarea>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Enviar respuesta</button>
+      <p class="status" id="status"></p>
+    </form>
+
+    <div class="thanks" id="thanks">
+      <div class="check">✓</div>
+      <h2>¡Gracias por tu tiempo!</h2>
+      <p>Tu respuesta quedó registrada. Nos ayuda a seguir mejorando Mancii para ti.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var scales = document.querySelectorAll(".scale");
+  scales.forEach(function (el) {
+    for (var i = 1; i <= 5; i++) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = i;
+      btn.setAttribute("aria-pressed", "false");
+      btn.addEventListener("click", function () {
+        var group = this.parentElement;
+        group.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+        this.setAttribute("aria-pressed", "true");
+        group.dataset.value = this.textContent;
+      });
+      el.appendChild(btn);
+    }
+  });
+
+  var nps = document.querySelector(".npsrow");
+  for (var n = 0; n <= 10; n++) {
+    (function (n) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = n;
+      btn.setAttribute("aria-pressed", "false");
+      btn.addEventListener("click", function () {
+        nps.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+        btn.setAttribute("aria-pressed", "true");
+        nps.dataset.value = n;
+      });
+      nps.appendChild(btn);
+    })(n);
+  }
+
+  var form = document.getElementById("survey-form");
+  var statusEl = document.getElementById("status");
+  var submitBtn = document.getElementById("submit-btn");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if (document.getElementById("website").value) return;
+
+    var empresa = document.getElementById("empresa").value.trim();
+    var onboarding = document.querySelector('[data-field="onboarding"]').dataset.value;
+    var soporte = document.querySelector('[data-field="soporte"]').dataset.value;
+    var tiempo = document.querySelector('[data-field="tiempo"]').dataset.value;
+    var usodiario = document.querySelector('[data-field="usodiario"]').dataset.value;
+    var npsVal = nps.dataset.value;
+
+    if (!empresa) {
+      statusEl.textContent = "Indícanos de qué empresa o institución eres, por favor.";
+      statusEl.className = "status error";
+      return;
+    }
+    if (!onboarding || !soporte || !tiempo || !usodiario || npsVal === undefined) {
+      statusEl.textContent = "Faltan preguntas por responder con escala numérica.";
+      statusEl.className = "status error";
+      return;
+    }
+
+    var payload = {
+      nombre: document.getElementById("nombre").value.trim(),
+      rol: document.getElementById("rol").value.trim(),
+      empresa: empresa,
+      claridadOnboarding: parseInt(onboarding, 10),
+      calidadSoporte: parseInt(soporte, 10),
+      tiempoRespuesta: parseInt(tiempo, 10),
+      facilidadUso: parseInt(usodiario, 10),
+      nps: parseInt(npsVal, 10),
+      featureValorada: document.getElementById("feature_valorada").value.trim(),
+      featureFaltante: document.getElementById("feature_faltante").value.trim(),
+      comentarios: document.getElementById("comentarios").value.trim()
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
+    statusEl.textContent = "";
+
+    fetch("/api/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("request-failed");
+        return res.json();
+      })
+      .then(function () {
+        form.style.display = "none";
+        document.getElementById("thanks").style.display = "block";
+      })
+      .catch(function () {
+        statusEl.textContent = "No pudimos enviar tu respuesta. Probá de nuevo en unos segundos.";
+        statusEl.className = "status error";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar respuesta";
+      });
+  });
+})();
+</script>
+</body>
+</html>
