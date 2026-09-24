@@ -394,20 +394,20 @@
           <div class="badge" style="background:var(--secondary)">6</div>
           <div>
             <p class="section-title">Comentarios</p>
-            <p class="section-sub">Todo esto es opcional, pero nos ayuda muchísimo.</p>
+            <p class="section-sub">Tu palabra en detalle nos ayuda muchísimo.</p>
           </div>
         </div>
         <div class="field-block">
-          <label class="field-label" for="feature_valorada">¿Qué es lo que más valoras de Mancii?</label>
-          <textarea id="feature_valorada" maxlength="600"></textarea>
+          <label class="field-label" for="feature_valorada">¿Qué es lo que más valoras de Mancii? <span style="color:var(--primary)">*</span></label>
+          <textarea id="feature_valorada" maxlength="600" required></textarea>
         </div>
         <div class="field-block">
-          <label class="field-label" for="feature_faltante">¿Qué sientes que le falta o podría mejorar?</label>
-          <textarea id="feature_faltante" maxlength="600"></textarea>
+          <label class="field-label" for="feature_faltante">¿Qué sientes que le falta o podría mejorar? <span style="color:var(--primary)">*</span></label>
+          <textarea id="feature_faltante" maxlength="600" required></textarea>
         </div>
         <div class="field-block">
-          <label class="field-label" for="comentarios">Otros comentarios</label>
-          <textarea id="comentarios" maxlength="600"></textarea>
+          <label class="field-label" for="comentarios">Otros comentarios <span style="color:var(--primary)">*</span></label>
+          <textarea id="comentarios" maxlength="600" required></textarea>
         </div>
       </fieldset>
 
@@ -473,6 +473,9 @@
     var tiempo = document.querySelector('[data-field="tiempo"]').dataset.value;
     var usodiario = document.querySelector('[data-field="usodiario"]').dataset.value;
     var npsVal = nps.dataset.value;
+    var featureValorada = document.getElementById("feature_valorada").value.trim();
+    var featureFaltante = document.getElementById("feature_faltante").value.trim();
+    var comentarios = document.getElementById("comentarios").value.trim();
 
     if (!empresa) {
       statusEl.textContent = "Indícanos de qué empresa o institución eres, por favor.";
@@ -481,6 +484,11 @@
     }
     if (!onboarding || !soporte || !tiempo || !usodiario || npsVal === undefined) {
       statusEl.textContent = "Faltan preguntas por responder con escala numérica.";
+      statusEl.className = "status error";
+      return;
+    }
+    if (!featureValorada || !featureFaltante || !comentarios) {
+      statusEl.textContent = "Las preguntas abiertas son obligatorias, por favor complétalas.";
       statusEl.className = "status error";
       return;
     }
@@ -494,9 +502,9 @@
       tiempoRespuesta: parseInt(tiempo, 10),
       facilidadUso: parseInt(usodiario, 10),
       nps: parseInt(npsVal, 10),
-      featureValorada: document.getElementById("feature_valorada").value.trim(),
-      featureFaltante: document.getElementById("feature_faltante").value.trim(),
-      comentarios: document.getElementById("comentarios").value.trim()
+      featureValorada: featureValorada,
+      featureFaltante: featureFaltante,
+      comentarios: comentarios
     };
 
     submitBtn.disabled = true;

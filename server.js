@@ -38,6 +38,13 @@ app.post("/api/submit", async (req, res) => {
     return res.status(400).json({ error: "invalid_nps" });
   }
 
+  const openFields = { featureValorada, featureFaltante, comentarios };
+  for (const [key, value] of Object.entries(openFields)) {
+    if (typeof value !== "string" || !value.trim()) {
+      return res.status(400).json({ error: `${key}_required` });
+    }
+  }
+
   const fields = {
     Empresa: empresa.trim().slice(0, 160),
     Claridad_Onboarding: claridadOnboarding,
@@ -45,13 +52,13 @@ app.post("/api/submit", async (req, res) => {
     Tiempo_Respuesta: tiempoRespuesta,
     Facilidad_Uso_Diario: facilidadUso,
     NPS: nps,
+    Feature_Valorada: featureValorada.trim().slice(0, 2000),
+    Feature_Faltante: featureFaltante.trim().slice(0, 2000),
+    Comentarios: comentarios.trim().slice(0, 2000),
   };
 
   if (typeof nombre === "string" && nombre.trim()) fields.Nombre = nombre.trim().slice(0, 120);
   if (typeof rol === "string" && rol.trim()) fields.Rol = rol.trim().slice(0, 120);
-  if (typeof featureValorada === "string" && featureValorada.trim()) fields.Feature_Valorada = featureValorada.trim().slice(0, 2000);
-  if (typeof featureFaltante === "string" && featureFaltante.trim()) fields.Feature_Faltante = featureFaltante.trim().slice(0, 2000);
-  if (typeof comentarios === "string" && comentarios.trim()) fields.Comentarios = comentarios.trim().slice(0, 2000);
 
   const baseId = process.env.AIRTABLE_BASE_ID;
   const tableId = process.env.AIRTABLE_TABLE_ID;
