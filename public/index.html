@@ -310,18 +310,18 @@
       <p class="eyebrow">Encuesta de satisfacción</p>
       <h1>¿Cómo te está yendo con Mancii?</h1>
       <p class="intro">Tu experiencia nos ayuda a mejorar la plataforma para ti y para los próximos equipos que la usen. Toma menos de 3 minutos.</p>
-      <p class="privacy">🔒 Tus respuestas son confidenciales — el nombre es opcional.</p>
+      <p class="privacy">🔒 Tus respuestas son tratadas de forma confidencial.</p>
 
       <input class="hp" type="text" name="website" id="website" tabindex="-1" autocomplete="off" />
 
       <div class="row-grid">
         <div>
-          <label class="field-label" for="nombre">Nombre (opcional)</label>
-          <input type="text" id="nombre" maxlength="120" placeholder="Tu nombre" />
+          <label class="field-label" for="nombre">Nombre <span style="color:var(--primary)">*</span></label>
+          <input type="text" id="nombre" maxlength="120" placeholder="Tu nombre" required />
         </div>
         <div>
-          <label class="field-label" for="rol">Tu rol / cargo</label>
-          <input type="text" id="rol" maxlength="120" placeholder="Ej. Coordinador académico" />
+          <label class="field-label" for="rol">Tu rol / cargo <span style="color:var(--primary)">*</span></label>
+          <input type="text" id="rol" maxlength="120" placeholder="Ej. Coordinador académico" required />
         </div>
       </div>
       <div class="field-block">
@@ -467,6 +467,8 @@
 
     if (document.getElementById("website").value) return;
 
+    var nombre = document.getElementById("nombre").value.trim();
+    var rol = document.getElementById("rol").value.trim();
     var empresa = document.getElementById("empresa").value.trim();
     var onboarding = document.querySelector('[data-field="onboarding"]').dataset.value;
     var soporte = document.querySelector('[data-field="soporte"]').dataset.value;
@@ -477,6 +479,11 @@
     var featureFaltante = document.getElementById("feature_faltante").value.trim();
     var comentarios = document.getElementById("comentarios").value.trim();
 
+    if (!nombre || !rol) {
+      statusEl.textContent = "Nombre y rol son obligatorios, por favor complétalos.";
+      statusEl.className = "status error";
+      return;
+    }
     if (!empresa) {
       statusEl.textContent = "Indícanos de qué empresa o institución eres, por favor.";
       statusEl.className = "status error";
@@ -494,8 +501,8 @@
     }
 
     var payload = {
-      nombre: document.getElementById("nombre").value.trim(),
-      rol: document.getElementById("rol").value.trim(),
+      nombre: nombre,
+      rol: rol,
       empresa: empresa,
       claridadOnboarding: parseInt(onboarding, 10),
       calidadSoporte: parseInt(soporte, 10),
